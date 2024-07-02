@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class CSVStorage
@@ -11,25 +9,23 @@ public class CSVStorage
     public const string STAGE_FILE_NAME = @"Stage.csv";
     public const string RANKING_FILE_NAME = @"Ranking.csv";
 
-    public IEnumerable<T> Read<T>(string file)
+    public IEnumerable<T> Read<T>(string file) 
         where T : class
     {
         List<T> data = new List<T>();
-        var propNameType = typeof(T).GetProperties()
-            .Select(p => new { Name = p.Name, Type = p.PropertyType })
-            .ToArray();
+        var propInfo = typeof(T).GetProperties().Where(p => p.CanWrite).ToArray();
         
         using (StreamReader sr = new StreamReader(File.Open(Path.Combine("Assets", file), FileMode.OpenOrCreate, FileAccess.Read)))
         {
-            var table = sr.ReadLine()?.Split(',');
+            var properties = sr.ReadLine()?.Split(',');
 
-            if (table?.Length == 0)
+            if (properties == null || properties.Length == 0)
                 return data;
             
-            var propIdx = new int[table!.Length];
+            var propIdx = new int[properties.Length];
 
-            for (int i = 0; i < table.Length; i++)
-                propIdx[i] = Array.IndexOf(table, propNameType.Select(p => p.Name).ToArray()[i]);
+            for (int i = 0; i < propIdx.Length; i++)
+                propIdx[i] = Array.IndexOf(properties, propInfo.Select(p => p.Name).ToArray()[i]);
 
             string line;
 
@@ -40,11 +36,8 @@ public class CSVStorage
                     var propValue = line.Split(',');
                     var element = Activator.CreateInstance<T>();
 
-                    for (int i = 0; i < table.Length; i++)
-                    {
-                        typeof(T).GetProperty(propNameType[i].Name)?
-                                 .SetValue(element, Convert.ChangeType(propValue[propIdx[i]], propNameType[i].Type));
-                    }
+                    for (int i = 0; i < propIdx.Length; i++)
+                        typeof(T).GetProperty(propInfo[i].Name)?.SetValue(element, Convert.ChangeType(propValue[propIdx[i]], propInfo[i].PropertyType));
                     
                     data.Add(element);
                 }
@@ -62,24 +55,21 @@ public class CSVStorage
     {
         using (StreamWriter sw = new StreamWriter(File.Open(Path.Combine("Assets", fileName), FileMode.OpenOrCreate)))
         {
-            var table = string.Empty;
+            var properties = string.Empty;
             
             foreach (var property in typeof(T).GetProperties())
-                table += $"{property.Name},";
+                properties += $"{property.Name},";
 
-            table = table.Trim(',');
-            sw.WriteLine(table);
+            sw.WriteLine(properties.Trim(','));
 
             foreach (var property in data)
             {
                 var line = string.Empty;
 
-                foreach (var member in typeof(T).GetProperties())
+                foreach (var member in typeof(T).GetProperties().Where(p => p.CanWrite))
                     line += $"{member.GetValue(property)},";
 
-                line = line.Trim(',');
-                
-                sw.WriteLine(line);
+                sw.WriteLine(line.Trim(','));
             }
         }
     }
