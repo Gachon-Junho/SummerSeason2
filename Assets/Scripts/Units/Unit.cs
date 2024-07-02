@@ -7,7 +7,7 @@ public abstract class Unit : MonoBehaviour
 {
     public int HP => hp;
     public int MaxHP => maxHP;
-    public int AttackPower => attackPower;
+    public int Damage => damage;
     public float AttackSpeed => attackSpeed;
     public bool IsAlive => hp > 0;
 
@@ -22,12 +22,16 @@ public abstract class Unit : MonoBehaviour
     private int maxHP;
 
     [SerializeField] 
-    private int attackPower;
+    private int damage;
 
     [SerializeField] 
     private float attackSpeed;
 
     protected float TimeUntilAvailableAttack { get; private set; }
+
+    protected virtual void OnDead()
+    {
+    }
 
     public void DecreaseHP(int amount)
     {
@@ -37,7 +41,11 @@ public abstract class Unit : MonoBehaviour
         hp = Math.Clamp(hp - amount, 0, maxHP);
 
         if (hp == 0)
+        {
+            OnDead();
             OnDied?.Invoke();
+        }
+            
         
         OnDamaged?.Invoke();
     }
@@ -57,7 +65,7 @@ public abstract class Unit : MonoBehaviour
         if (target == null || TimeUntilAvailableAttack > Time.time)
             return false;
         
-        target.DecreaseHP(attackPower);
+        target.DecreaseHP(damage);
         TimeUntilAvailableAttack = Time.time + 1 / attackSpeed;
 
         return true;

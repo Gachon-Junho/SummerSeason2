@@ -3,5 +3,7 @@ using UnityEngine.Pool;
 
 public interface IPoolableObject
 {
-    public IObjectPool<GameObject> Pool { get; set; }
+    IObjectPool<GameObject> Pool { get; set; }
+
+    void Release();
 }

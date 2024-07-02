@@ -9,23 +9,23 @@ public class ObjectPoolingManager<T> : MonoSingleton<ObjectPoolingManager<T>>
 {
     public IObjectPool<GameObject> Pool { get; private set; }
     
-    public const int DEFAULT_CAPACITY = 10;
-    public const int MAX_SIZE = 20;
+    public const int DEFAULT_CAPACITY = 20;
+    public const int MAX_SIZE = 100;
 
-    [SerializeField]
-    public GameObject[] Prefabs;
+    [SerializeField] 
+    public GameObject Prefab;
 
 
     protected override void Awake()
     {
         base.Awake();
-
+        
         Pool = new ObjectPool<GameObject>(createPooledItem, onGetFromPool, onReleaseToPool, onDestroyPoolObject, true, DEFAULT_CAPACITY, MAX_SIZE);
     }
 
-    private GameObject createPooledItem()
+    protected virtual GameObject createPooledItem()
     {
-        var go = Instantiate(Prefabs[Random.Range(0, Prefabs.Length)]);
+        var go = Instantiate(Prefab);
         go.GetComponent<T>().Pool = Pool;
 
         return go;
