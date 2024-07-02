@@ -24,7 +24,7 @@ public class Player : Unit
         gameObject.transform.position = new Vector3(mousePos.x, mousePos.y, 0);
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         switch (other.gameObject.tag)
         {
