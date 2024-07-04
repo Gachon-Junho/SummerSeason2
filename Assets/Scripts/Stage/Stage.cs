@@ -1,15 +1,20 @@
 using System;
 
-public class Stage : IEquatable<Stage>
+public class Stage
 {
-    public int EnemyType1Count { get; set; }
-    public int EnemyType2Count { get; set; }
+    public int E1Count { get; set; }
+    public int E1HP { get; set; }
+    public float E1MoveSpeed { get; set; }
     
+    public int E2Count { get; set; }
+    public int E2HP { get; set; }
+    public float E2AttackSpeed { get; set; }
+    public float E2BulletSpeed { get; set; }
 
-    public bool Equals(Stage other)
-    {
-        return EnemyType1Count == other.EnemyType1Count && EnemyType2Count == other.EnemyType2Count;
-    }
+    public int BossHP { get; set; }
+    public float BossMoveSpeed { get; set; }
+    public float BossAttackSpeed { get; set; }
+    public float BossBulletSpeed { get; set; }
 
-    public int EnemyCount => EnemyType1Count + EnemyType2Count;
+    public int EnemyCount => E1Count + E2Count;
 }

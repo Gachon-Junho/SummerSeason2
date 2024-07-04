@@ -15,6 +15,9 @@ public class CSVStorage
         List<T> data = new List<T>();
         var propInfo = typeof(T).GetProperties().Where(p => p.CanWrite).ToArray();
         
+        if (!File.Exists(Path.Combine("Assets", file)))
+            Write(data, file);
+        
         using (StreamReader sr = new StreamReader(File.Open(Path.Combine("Assets", file), FileMode.OpenOrCreate, FileAccess.Read)))
         {
             var properties = sr.ReadLine()?.Split(',');
@@ -25,7 +28,7 @@ public class CSVStorage
             var propIdx = new int[properties.Length];
 
             for (int i = 0; i < propIdx.Length; i++)
-                propIdx[i] = Array.IndexOf(properties, propInfo.Select(p => p.Name).ToArray()[i]);
+                propIdx[i] = Array.IndexOf(properties, propInfo.Select(p => p.Name).Intersect(properties).ToArray()[i]);
 
             string line;
 
@@ -52,12 +55,13 @@ public class CSVStorage
     }
 
     public void Write<T>(IEnumerable<T> data, string fileName)
+        where T : class
     {
         using (StreamWriter sw = new StreamWriter(File.Open(Path.Combine("Assets", fileName), FileMode.OpenOrCreate)))
         {
             var properties = string.Empty;
             
-            foreach (var property in typeof(T).GetProperties())
+            foreach (var property in typeof(T).GetProperties().Where(p => p.CanWrite))
                 properties += $"{property.Name},";
 
             sw.WriteLine(properties.Trim(','));

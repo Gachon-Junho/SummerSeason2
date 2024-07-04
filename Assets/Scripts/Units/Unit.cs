@@ -5,10 +5,30 @@ using UnityEngine;
 
 public abstract class Unit : MonoBehaviour
 {
-    public int HP => hp;
-    public int MaxHP => maxHP;
-    public int Damage => damage;
-    public float AttackSpeed => attackSpeed;
+    public int HP
+    {
+        get => hp;
+        protected set => hp = value;
+    }
+    
+    public int MaxHP
+    {
+        get => maxHP;
+        protected set => maxHP = value;
+    }
+    
+    public int Damage
+    {
+        get => damage;
+        protected set => damage = value;
+    }
+    
+    public float AttackSpeed
+    {
+        get => attackSpeed;
+        protected set => attackSpeed = value;
+    }
+    
     public bool IsAlive => hp > 0;
 
     public event Action OnDamaged;
@@ -29,6 +49,13 @@ public abstract class Unit : MonoBehaviour
 
     protected float TimeUntilAvailableAttack { get; private set; }
 
+    public virtual void Initialize(int hp, int damage, float attackSpeed)
+    {
+        MaxHP = this.hp = hp;
+        Damage = damage;
+        AttackSpeed = attackSpeed;
+    }
+
     protected virtual void OnDead()
     {
     }
@@ -45,7 +72,6 @@ public abstract class Unit : MonoBehaviour
             OnDead();
             OnDied?.Invoke();
         }
-            
         
         OnDamaged?.Invoke();
     }

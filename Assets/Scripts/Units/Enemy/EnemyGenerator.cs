@@ -16,7 +16,7 @@ public class EnemyGenerator : MonoBehaviour
 
     public void StartGenerate(Button button)
     {
-        button.gameObject.SetActive(false);
+        button?.gameObject.SetActive(false);
         
         if (runningCoroutine != null)
             StopCoroutine(runningCoroutine);
@@ -28,7 +28,7 @@ public class EnemyGenerator : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
         
-        for (int i = 0; i <= stageManager.Current.EnemyCount; i++)
+        for (int i = 0; i <= stageManager.Current?.EnemyCount; i++)
         {
             yield return new WaitForSeconds(1);
 
@@ -41,6 +41,8 @@ public class EnemyGenerator : MonoBehaviour
             }
             
             var enemy = EnemyPoolingManager.Current.Pool.Get();
+            enemy.GetComponent<Enemy>().Initialize(stageManager.Current);
+            
             stageManager.UpdateStageState(1, false);
 
             enemy.transform.position = new Vector3(12, Random.Range(-5 + enemy.transform.localScale.y, 5 - enemy.transform.localScale.y));

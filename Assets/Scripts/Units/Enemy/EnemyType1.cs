@@ -13,14 +13,11 @@ public class EnemyType1 : Enemy
         
     }
 
+    public override void Initialize(Stage stage) => Initialize(stage.E1HP, 0, 0, stage.E1MoveSpeed);
+
     // Update is called once per frame
     protected override void Update()
     {
         base.Update();
-    }
-
-    protected override void OnDead()
-    {
-        Release();
     }
 }

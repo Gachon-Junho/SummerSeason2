@@ -14,13 +14,15 @@ public class EnemyType3 : Enemy
         
     }
 
+    public override void Initialize(Stage stage) => Initialize(stage.BossHP, stage.BossBulletSpeed, stage.BossAttackSpeed, stage.BossMoveSpeed);
+
     protected override void OnDead()
     {
         var stageManager = GameObject.Find("StageManager");
         stageManager.GetComponent<StageManager>().UpdateStageState(0, true);
         
         GameObject.Find("EnemyGenerator").GetComponent<EnemyGenerator>().StartGenerate(null);
-        Destroy(gameObject);
+        Release();
     }
 
     // Update is called once per frame

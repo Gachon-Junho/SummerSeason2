@@ -10,13 +10,27 @@ public abstract class Enemy : Unit, IPoolableObject, IHasPoint
     public IObjectPool<GameObject> Pool { get; set; }
 
     public abstract int Type { get; }
-    
+
+    protected GameObject Player
+    {
+        get => player ??= GameObject.Find("Player");
+    }
+
+
+    private StageManager stageManager;
     private GameObject player;
 
-    // Start is called before the first frame update
-    void Start()
+    protected float MoveSpeed;
+    protected float BulletSpeed;
+
+    public void Initialize(int hp, float bulletSpeed, float attackSpeed, float moveSpeed)
     {
+        base.Initialize(hp, 999, attackSpeed);
+        MoveSpeed = moveSpeed;
+        BulletSpeed = bulletSpeed;
     }
+
+    public abstract void Initialize(Stage stage);
 
     // Update is called once per frame
     protected virtual void Update()
@@ -24,19 +38,29 @@ public abstract class Enemy : Unit, IPoolableObject, IHasPoint
         player ??= GameObject.FindWithTag("Player");
         
         var distance = Vector3.Distance(transform.position, player.transform.position);
-        transform.Translate(-0.01f, 0, 0);
+        transform.Translate(-MoveSpeed, 0, 0);
         
         if (distance < 8)
         {
-            transform.Translate(0, 0, 0);
             var moveY = Vector3.MoveTowards(transform.position, player.transform.position, 0.01f).y;
             transform.position = new Vector3(transform.position.x, moveY);
-            //transform.LookAt(player.transform);
         }
         
         if (transform.position.x < -23)
             Release();
     }
 
-    public virtual void Release() => Pool.Release(gameObject);
+    protected override void OnDead()
+    {
+        // Todo: 게임 디렉터에 점수 넘기기.
+        Release();
+    }
+
+    public virtual void Release()
+    {
+        stageManager ??= GameObject.Find("StageManager").GetComponent<StageManager>();
+
+        HP = MaxHP;
+        Pool.Release(gameObject);
+    }
 }

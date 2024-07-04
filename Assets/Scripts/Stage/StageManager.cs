@@ -9,7 +9,7 @@ public class StageManager : MonoBehaviour
     public Stage[] Stages { get; private set; }
     public Stage Current => Stages == null || Stages.Length == 0 ? null : Stages[CurrentStageIndex];
 
-    public int RemainingEnemies => Current == null ? 0 : Current.EnemyType1Count + Current.EnemyType2Count - GeneratedEnemies;
+    public int RemainingEnemies => Current == null ? 0 : Current.E1Count + Current.E2Count - GeneratedEnemies;
     public bool ShowBoss => RemainingEnemies == 0;
 
     public int GeneratedEnemies { get; private set; }
