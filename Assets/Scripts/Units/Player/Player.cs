@@ -43,6 +43,7 @@ public class Player : Unit
             return;
         
         GameStateCache.Score += ((IHasPoint)killedUnit).Point;
+        GameStateCache.Round = GameObject.Find("StageManager").GetComponent<StageManager>().CurrentStageIndex + 1;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -54,7 +55,7 @@ public class Player : Unit
                 if (ReferenceEquals(other.gameObject.GetComponent<Bullet>()?.Start, this))
                     return;
                 
-                this.LoadSceneAsync("ResultScene");
+                GameObject.Find("GameDirector").GetComponent<GameDirector>().FinishGame();
                 break;
         }
     }

@@ -7,7 +7,7 @@ using UnityEngine;
 public class CSVStorage
 {
     public const string STAGE_FILE_NAME = @"Stage.csv";
-    public const string RANKING_FILE_NAME = @"Ranking.csv";
+    public const string SCORES_FILE_NAME = @"Scores.csv";
 
     public IEnumerable<T> Read<T>(string file) 
         where T : class

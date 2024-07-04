@@ -50,16 +50,19 @@ public abstract class Enemy : Unit, IPoolableObject, IHasPoint
             Release();
     }
 
+    public override void OnKilled(Unit killedUnit)
+    {
+    }
+
     protected override void OnDead()
     {
-        // Todo: 게임 디렉터에 점수 넘기기.
         Release();
     }
 
     public virtual void Release()
     {
         stageManager ??= GameObject.Find("StageManager").GetComponent<StageManager>();
-
+        
         HP = MaxHP;
         Pool.Release(gameObject);
     }

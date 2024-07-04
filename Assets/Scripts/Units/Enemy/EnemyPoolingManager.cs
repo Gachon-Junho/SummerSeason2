@@ -18,6 +18,5 @@ public class EnemyPoolingManager : ObjectPoolingManager<Enemy>
 
     private void shuffle()
     {
-        
     }
 }
