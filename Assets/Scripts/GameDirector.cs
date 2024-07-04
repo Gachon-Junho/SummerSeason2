@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class GameDirector : MonoSingleton<GameDirector>
 {
+    [SerializeField]
+    private EnemyGenerator enemyGenerator;
+    
     public bool IsPlaying { get; private set; }
     public float ElapsedTime { get; private set; }
     
@@ -18,6 +21,7 @@ public class GameDirector : MonoSingleton<GameDirector>
     {
         ui.SetActive(false);
         IsPlaying = true;
+        enemyGenerator.StartGenerate();
     }
 
     public void FinishGame()

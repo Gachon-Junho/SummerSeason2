@@ -14,10 +14,8 @@ public class EnemyGenerator : MonoBehaviour
 
     private IEnumerator runningCoroutine;
 
-    public void StartGenerate(Button button)
+    public void StartGenerate()
     {
-        button?.gameObject.SetActive(false);
-        
         if (runningCoroutine != null)
             StopCoroutine(runningCoroutine);
         

@@ -21,7 +21,7 @@ public class EnemyType3 : Enemy
         var stageManager = GameObject.Find("StageManager");
         stageManager.GetComponent<StageManager>().UpdateStageState(0, true);
         
-        GameObject.Find("EnemyGenerator").GetComponent<EnemyGenerator>().StartGenerate(null);
+        GameObject.Find("EnemyGenerator").GetComponent<EnemyGenerator>().StartGenerate();
         Release();
     }
 

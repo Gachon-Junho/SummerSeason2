@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.Experimental.AI;
+using UnityEngine.Serialization;
 
 namespace Result
 {
@@ -9,7 +10,7 @@ namespace Result
         public PlayerScore PlayerScore;
         
         [SerializeField] 
-        private TMP_Text name;
+        private TMP_Text playerName;
         
         [SerializeField] 
         private TMP_Text score;
@@ -21,7 +22,7 @@ namespace Result
         {
             PlayerScore = playerScore;
             
-            name.text = $"Name: {playerScore.Name}";
+            playerName.text = $"Name: {playerScore.Name}";
             score.text = $"Score: {playerScore.Score}";
             time.text = $"Time: {playerScore.Time}";
         }

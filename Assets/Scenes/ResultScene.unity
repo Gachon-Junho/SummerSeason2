@@ -1522,6 +1522,7 @@ MonoBehaviour:
   scoreCard: {fileID: 3533724493364043130, guid: 95da9b695ca174d3aabe2cb0088a50d6, type: 3}
   scrollContent: {fileID: 1072955901}
   resultLayer: {fileID: 726695487}
+  resultText: {fileID: 68485484}
   leaderboardLayer: {fileID: 363189045}
 --- !u!1 &1557749444
 GameObject:

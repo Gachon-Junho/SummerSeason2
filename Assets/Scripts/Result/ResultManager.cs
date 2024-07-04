@@ -19,6 +19,9 @@ public class ResultManager : MonoBehaviour
 
     [SerializeField]
     private GameObject resultLayer;
+
+    [SerializeField] 
+    private TMP_Text resultText;
     
     [SerializeField]
     private GameObject leaderboardLayer;
@@ -33,7 +36,7 @@ public class ResultManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        resultText.text = $"Result\nScore:{GameStateCache.Score}\nTime: {GameStateCache.Time}";
     }
 
     public void SubmitScore(TMP_InputField textbox)
@@ -66,7 +69,7 @@ public class ResultManager : MonoBehaviour
             var newScore = Instantiate(scoreCard);
                     
             newScore.transform.SetParent(scrollContent.transform);
-            newScore.GetComponent<ScoreCard>().PlayerScore = score;
+            newScore.GetComponent<ScoreCard>().SetData(score);
         }
     }
 }
