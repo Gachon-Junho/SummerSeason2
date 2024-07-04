@@ -14,6 +14,8 @@ public class StageManager : MonoBehaviour
 
     public int GeneratedEnemies { get; private set; }
     public int CurrentStageIndex { get; private set; }
+
+    public event Action<int, Stage> StageChanged;
     
     void Awake()
     {
@@ -30,6 +32,7 @@ public class StageManager : MonoBehaviour
         {
             CurrentStageIndex++;
             GeneratedEnemies = 0;
+            StageChanged?.Invoke(CurrentStageIndex, Current);
         }
     }
 }

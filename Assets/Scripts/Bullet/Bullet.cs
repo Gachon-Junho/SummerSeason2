@@ -77,8 +77,6 @@ public class Bullet : MonoBehaviour, IPoolableObject
                 Vector2 newPos = target.transform.position - origin;
                 float rotZ = Mathf.Atan2(newPos.y, newPos.x) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.Euler(0, 0, rotZ);
-                
-                //transform.up = target.transform.position;
             }
                 
 
@@ -99,7 +97,7 @@ public class Bullet : MonoBehaviour, IPoolableObject
             return;
         }
             
-        other.GetComponent<Unit>().DecreaseHP(Damage);
+        other.GetComponent<Unit>().DecreaseHP(Damage, start);
         IsHited = true;
     }
 

@@ -56,11 +56,18 @@ public abstract class Unit : MonoBehaviour
         AttackSpeed = attackSpeed;
     }
 
+    private void Update()
+    {
+        TimeUntilAvailableAttack = Mathf.Clamp(TimeUntilAvailableAttack - Time.deltaTime, 0, float.MaxValue);
+    }
+
+    public abstract void OnKilled(Unit killedUnit);
+
     protected virtual void OnDead()
     {
     }
 
-    public void DecreaseHP(int amount)
+    public void DecreaseHP(int amount, Unit killer = null)
     {
         if (!IsAlive)
             return;
@@ -71,6 +78,9 @@ public abstract class Unit : MonoBehaviour
         {
             OnDead();
             OnDied?.Invoke();
+            
+            // Propagate to killer
+            killer?.OnKilled(this);
         }
         
         OnDamaged?.Invoke();
@@ -86,12 +96,11 @@ public abstract class Unit : MonoBehaviour
         OnHealed?.Invoke();
     }
 
-    private bool attack(Unit target)
+    private bool attack()
     {
-        if (target == null || TimeUntilAvailableAttack > Time.time)
+        if (TimeUntilAvailableAttack > 0)
             return false;
         
-        target.DecreaseHP(damage);
         TimeUntilAvailableAttack = Time.time + 1 / attackSpeed;
 
         return true;
@@ -102,8 +111,8 @@ public abstract class Unit : MonoBehaviour
     /// </summary>
     /// <param name="target">공격할 대상.</param>
     /// <returns>공격 성공 여부.</returns>
-    public virtual bool Attack(Unit target)
+    public virtual bool Attack()
     {
-        return attack(target);
+        return attack();
     }
 }

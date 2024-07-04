@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : Unit
 {
@@ -36,19 +37,24 @@ public class Player : Unit
         guard.SetActive(Input.GetKey(guard_key_code));
     }
 
+    public override void OnKilled(Unit killedUnit)
+    {
+        if (killedUnit is not IHasPoint)
+            return;
+        
+        GameStateCache.Score += ((IHasPoint)killedUnit).Point;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         switch (other.gameObject.tag)
         {
             case "Enemy":
-                // Todo: 게임 끝.
-                break;
-            
             case "Bullet":
-                if (ReferenceEquals(other.gameObject.GetComponent<Bullet>().Start, this))
-                    break;
+                if (ReferenceEquals(other.gameObject.GetComponent<Bullet>()?.Start, this))
+                    return;
                 
-                // Todo: 게임 끝.
+                this.LoadSceneAsync("ResultScene");
                 break;
         }
     }
@@ -59,7 +65,7 @@ public class Player : Unit
         {
             var bullet = BulletPoolingManager.Current.Pool.Get();
             bullet.transform.position = transform.position;
-            bullet.GetComponent<Bullet>().Initialize(this, Vector3.right * 21, Damage, 0.04f);
+            bullet.GetComponent<Bullet>().Initialize(this, Vector3.right, Damage, 0.04f);
 
             yield return new WaitForSeconds(1 / AttackSpeed);
         }
