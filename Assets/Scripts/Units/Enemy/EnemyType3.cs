@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental;
 using UnityEngine;
 
 public class EnemyType3 : Enemy
@@ -14,8 +15,39 @@ public class EnemyType3 : Enemy
         
     }
 
-    public override void Initialize(Stage stage) => Initialize(stage.BossHP, stage.BossBulletSpeed, stage.BossAttackSpeed, stage.BossMoveSpeed);
+    public override void Initialize(Stage stage)
+    {
+        Initialize(stage.BossHP, stage.BossBulletSpeed, stage.BossAttackSpeed, stage.BossMoveSpeed);
+        StartCoroutine(fire());
+    }
 
+    private IEnumerator fire()
+    {
+        while (IsAlive)
+        {
+            var count = Random.Range(10, 20);
+            
+            for (int i = 0; i < count; i++)
+            {
+                var bullet = BulletPoolingManager.Current.Pool.Get();
+
+                var dir = new Vector2(BulletSpeed * Mathf.Cos(Mathf.PI * 2 * i / count), BulletSpeed * Mathf.Sin(Mathf.PI * i * 2 / count));
+                bullet.transform.Rotate(new Vector3(0f, 0f, 360f * i / count - 90));
+                            
+                // Todo: Circular 공격을 할때엔 총알 시작위치는 플레이어가 아니어야함.
+                bullet.transform.position = transform.position;
+                bullet.GetComponent<Bullet>().Initialize(this, dir, Damage, BulletSpeed);
+            }
+
+            yield return new WaitForSeconds(1 / AttackSpeed);
+        }
+    }
+    
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+    
     protected override void OnDead()
     {
         var stageManager = GameObject.Find("StageManager");

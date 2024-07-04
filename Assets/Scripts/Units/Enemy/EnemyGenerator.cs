@@ -33,6 +33,7 @@ public class EnemyGenerator : MonoBehaviour
             if (stageManager.ShowBoss)
             {
                 var boss = Instantiate(EnemyType3Prefab);
+                boss.GetComponent<Enemy>().Initialize(stageManager.Current);
                 boss.transform.position = new Vector3(12, Random.Range(-5 + boss.transform.localScale.y, 5 - boss.transform.localScale.y));
 
                 continue;

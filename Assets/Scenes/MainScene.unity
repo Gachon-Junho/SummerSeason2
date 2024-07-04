@@ -146,6 +146,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1572294545}
     m_Modifications:
+    - target: {fileID: 2999331154774431, guid: 1049086fff58f4929b9c9f5322e6c877, type: 3}
+      propertyPath: m_SortingOrder
+      value: -9
+      objectReference: {fileID: 0}
     - target: {fileID: 1324840355515788119, guid: 1049086fff58f4929b9c9f5322e6c877, type: 3}
       propertyPath: m_LocalPosition.x
       value: 35.72
@@ -271,8 +275,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74a7a0c29ebf9422cb58363ecd5dbba2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 1
-  maxHP: 1
+  hp: 90000
+  maxHP: 90000
   damage: 2
   attackSpeed: 5
   mainCamera: {fileID: 519420031}
@@ -478,6 +482,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2999331154774431, guid: 1049086fff58f4929b9c9f5322e6c877, type: 3}
+      propertyPath: m_SortingOrder
+      value: -9
+      objectReference: {fileID: 0}
     - target: {fileID: 1324840355515788119, guid: 1049086fff58f4929b9c9f5322e6c877, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5
@@ -590,6 +598,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1572294545}
     m_Modifications:
+    - target: {fileID: 2999331154774431, guid: 1049086fff58f4929b9c9f5322e6c877, type: 3}
+      propertyPath: m_SortingOrder
+      value: -9
+      objectReference: {fileID: 0}
     - target: {fileID: 1324840355515788119, guid: 1049086fff58f4929b9c9f5322e6c877, type: 3}
       propertyPath: m_LocalPosition.x
       value: 15.48
@@ -1434,7 +1446,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: -1515758062, guid: a56e8cadb078e44e096a07517f7f2eac, type: 3}
   m_Color: {r: 0.25, g: 0.830736, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1465,6 +1477,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2060381967}
   - component: {fileID: 2060381968}
+  - component: {fileID: 2060381969}
   m_Layer: 0
   m_Name: Guard
   m_TagString: Guard
@@ -1517,12 +1530,39 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.95, y: 0}
   m_Size: {x: 0.85, y: 2.5}
   m_Direction: 0
+--- !u!50 &2060381969
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060381966}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

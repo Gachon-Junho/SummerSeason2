@@ -55,9 +55,14 @@ public class Player : Unit
                 if (ReferenceEquals(other.gameObject.GetComponent<Bullet>()?.Start, this))
                     return;
                 
-                GameObject.Find("GameDirector").GetComponent<GameDirector>().FinishGame();
+                //GameObject.Find("GameDirector").GetComponent<GameDirector>().FinishGame();
                 break;
         }
+    }
+
+    protected override void OnDead()
+    {
+        GameObject.Find("GameDirector").GetComponent<GameDirector>().FinishGame();
     }
 
     private IEnumerator processShoot()

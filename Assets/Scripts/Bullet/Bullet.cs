@@ -88,7 +88,7 @@ public class Bullet : MonoBehaviour, IPoolableObject
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag(start.tag) || other.CompareTag(tag))
+        if (other.CompareTag(start.tag) || other.CompareTag(tag) || IsHited)
             return;
         
         if (other.CompareTag("Guard"))

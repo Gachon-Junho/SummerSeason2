@@ -17,7 +17,7 @@ public class EnemyType2 : Enemy
 
     public override void Initialize(Stage stage)
     {
-        Initialize(stage.E2HP, stage.E2BulletSpeed, stage.E2AttackSpeed, 0.0025f);
+        Initialize(stage.E2HP, stage.E2BulletSpeed * 0.5f, stage.E2AttackSpeed, 0.0025f);
         StartCoroutine(fire());
     }
 
@@ -33,7 +33,7 @@ public class EnemyType2 : Enemy
         while (IsAlive)
         {
             var bullet = BulletPoolingManager.Current.Pool.Get();
-            // Todo: Circular 공격을 할때엔 총알 시작위치는 플레이어가 아니어야함.
+
             bullet.transform.position = transform.position;
             bullet.GetComponent<Bullet>().Initialize(this, Player.GetComponent<Player>(), Damage, BulletSpeed, true);
 
