@@ -17,7 +17,7 @@ public class EnemyType3 : Enemy
 
     public override void Initialize(Stage stage)
     {
-        Initialize(stage.BossHP, stage.BossBulletSpeed, stage.BossAttackSpeed, stage.BossMoveSpeed);
+        Initialize(stage.BossHP, stage.BossBulletSpeed, stage.BossAttackSpeed, stage.BossMoveSpeed * 0.5f);
         StartCoroutine(fire());
     }
 
@@ -33,8 +33,6 @@ public class EnemyType3 : Enemy
 
                 var dir = new Vector2(BulletSpeed * Mathf.Cos(Mathf.PI * 2 * i / count), BulletSpeed * Mathf.Sin(Mathf.PI * i * 2 / count));
                 bullet.transform.Rotate(new Vector3(0f, 0f, 360f * i / count - 90));
-                            
-                // Todo: Circular 공격을 할때엔 총알 시작위치는 플레이어가 아니어야함.
                 bullet.transform.position = transform.position;
                 bullet.GetComponent<Bullet>().Initialize(this, dir, Damage, BulletSpeed);
             }

@@ -64,13 +64,17 @@ public class Bullet : MonoBehaviour, IPoolableObject
 
     protected virtual IEnumerator Fire()
     {
+        var angle = Mathf.Atan2(origin.y - destination.y, origin.x - destination.x);
+        var targetDirectionX = Mathf.Cos(angle) * Mathf.Sign(origin.x - destination.x);
+        
         while (!IsHited)
         {
             if (transform.position.x >= 20 || transform.position.x <= -20)
                 break;
             
             var targetDirection = Vector3.MoveTowards(transform.position, destination, Speed);
-            transform.position = new Vector3(transform.position.x + Mathf.Sign(destination.x - origin.x) * Speed, TrackTarget ? target.transform.position.y : transform.position.y);
+            transform.Translate(Mathf.Sign(targetDirectionX) * Speed, 0, 0);
+            transform.position = new Vector3(transform.position.x, TrackTarget ? targetDirection.y : transform.position.y);
             
             if (TrackTarget)
             {
@@ -78,7 +82,6 @@ public class Bullet : MonoBehaviour, IPoolableObject
                 float rotZ = Mathf.Atan2(newPos.y, newPos.x) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.Euler(0, 0, rotZ);
             }
-                
 
             yield return null;
         }

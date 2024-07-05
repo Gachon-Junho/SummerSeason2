@@ -71,7 +71,7 @@ public class Player : Unit
         {
             var bullet = BulletPoolingManager.Current.Pool.Get();
             bullet.transform.position = transform.position;
-            bullet.GetComponent<Bullet>().Initialize(this, Vector3.right, Damage, 0.04f);
+            bullet.GetComponent<Bullet>().Initialize(this, Vector3.right * 21, Damage, 0.04f);
 
             yield return new WaitForSeconds(1 / AttackSpeed);
         }
