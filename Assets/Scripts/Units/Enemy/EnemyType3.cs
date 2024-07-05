@@ -29,12 +29,12 @@ public class EnemyType3 : Enemy
             
             for (int i = 0; i < count; i++)
             {
-                var bullet = BulletPoolingManager.Current.Pool.Get();
+                var bullet = BulletPoolingManager.Current.Get();
 
                 var dir = new Vector2(BulletSpeed * Mathf.Cos(Mathf.PI * 2 * i / count), BulletSpeed * Mathf.Sin(Mathf.PI * i * 2 / count));
                 bullet.transform.Rotate(new Vector3(0f, 0f, 360f * i / count - 90));
                 bullet.transform.position = transform.position;
-                bullet.GetComponent<Bullet>().Initialize(this, dir, Damage, BulletSpeed);
+                bullet.Initialize(this, dir, Damage, BulletSpeed);
             }
 
             yield return new WaitForSeconds(1 / AttackSpeed);

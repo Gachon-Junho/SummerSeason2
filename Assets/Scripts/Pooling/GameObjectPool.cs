@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.Serialization;
 
-public class ObjectPoolingManager<T> : MonoSingleton<ObjectPoolingManager<T>>
-    where T : MonoBehaviour, IPoolableObject
+public class GameObjectPool<T> : MonoBehaviour
+    where T : MonoBehaviour, IPoolableGameObject
 {
     public IObjectPool<GameObject> Pool { get; private set; }
     
@@ -16,16 +16,14 @@ public class ObjectPoolingManager<T> : MonoSingleton<ObjectPoolingManager<T>>
     public GameObject Prefab;
 
 
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
-        
         Pool = new ObjectPool<GameObject>(createPooledItem, onGetFromPool, onReleaseToPool, onDestroyPoolObject, true, DEFAULT_CAPACITY, MAX_SIZE);
     }
 
     protected virtual GameObject createPooledItem()
     {
-        var go = Instantiate(Prefab);
+        var go = Instantiate(Prefab, gameObject.transform, true);
         go.GetComponent<T>().Pool = Pool;
 
         return go;

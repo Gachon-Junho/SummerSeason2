@@ -1,22 +1,26 @@
+using System.IO;
 using UnityEngine;
 
-public class EnemyPoolingManager : ObjectPoolingManager<Enemy>
+public class EnemyPoolingManager : MonoSingleton<EnemyPoolingManager>
 {
     [SerializeField]
-    private GameObject[] prefabs;
+    private EnemyPool E1Pool;
     
-    public int Count { get; private set; }
+    [SerializeField]
+    private EnemyPool E2Pool;
 
-    protected override GameObject createPooledItem()
+    public Enemy Get(int type)
     {
-        // 타입1과 2가 번갈아가며 순서대로 추가됩니다.
-        Prefab = prefabs[Count % prefabs.Length];
-        Count++;
-        
-        return base.createPooledItem();
-    }
-
-    private void shuffle()
-    {
+        switch (type)
+        {
+            case 1:
+                return E1Pool.Pool.Get().GetComponent<Enemy>();
+            
+            case 2:
+                return E2Pool.Pool.Get().GetComponent<Enemy>();
+            
+            default:
+                throw new InvalidDataException();
+        }
     }
 }

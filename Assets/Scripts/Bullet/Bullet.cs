@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class Bullet : MonoBehaviour, IPoolableObject
+public class Bullet : MonoBehaviour, IPoolableGameObject
 {
     public IObjectPool<GameObject> Pool { get; set; }
     
@@ -91,7 +91,10 @@ public class Bullet : MonoBehaviour, IPoolableObject
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag(start.tag) || other.CompareTag(tag) || IsHited)
+        if (start != null && other.CompareTag(start.tag))
+            return;
+        
+        if (other.CompareTag(tag) || IsHited)
             return;
         
         if (other.CompareTag("Guard"))

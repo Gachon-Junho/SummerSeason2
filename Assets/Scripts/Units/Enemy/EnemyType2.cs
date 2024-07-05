@@ -32,10 +32,10 @@ public class EnemyType2 : Enemy
     {
         while (IsAlive)
         {
-            var bullet = BulletPoolingManager.Current.Pool.Get();
+            var bullet = BulletPoolingManager.Current.Get();
 
             bullet.transform.position = transform.position;
-            bullet.GetComponent<Bullet>().Initialize(this, Player.GetComponent<Player>(), Damage, BulletSpeed, true);
+            bullet.Initialize(this, Player.GetComponent<Player>(), Damage, BulletSpeed, true);
 
             yield return new WaitForSeconds(1 / AttackSpeed);
         }

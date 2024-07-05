@@ -13,6 +13,9 @@ public class EnemyGenerator : MonoBehaviour
     private GameObject EnemyType3Prefab;
 
     private IEnumerator runningCoroutine;
+    
+    private int remainingE1Count;
+    private int remainingE2Count;
 
     public void StartGenerate()
     {
@@ -24,27 +27,54 @@ public class EnemyGenerator : MonoBehaviour
 
     IEnumerator GenerateEnemies()
     {
-        yield return new WaitForSeconds(1);
+        if (stageManager.Current == null)
+            yield break;
         
-        for (int i = 0; i <= stageManager.Current?.EnemyCount; i++)
+        yield return new WaitForSeconds(1);
+
+        remainingE1Count = stageManager.Current.E1Count;
+        remainingE2Count = stageManager.Current.E2Count;
+        
+        for (int i = 0; i <= stageManager.Current.EnemyCount; i++)
         {
             yield return new WaitForSeconds(1);
 
             if (stageManager.ShowBoss)
             {
                 var boss = Instantiate(EnemyType3Prefab);
-                boss.GetComponent<Enemy>().Initialize(stageManager.Current);
                 boss.transform.position = new Vector3(12, Random.Range(-5 + boss.transform.localScale.y, 5 - boss.transform.localScale.y));
+                boss.GetComponent<Enemy>().Initialize(stageManager.Current);
 
                 continue;
             }
-            
-            var enemy = EnemyPoolingManager.Current.Pool.Get();
+
+            var enemy = getRandomEnemy();
+            enemy.transform.position = new Vector3(12, Random.Range(-5 + enemy.transform.localScale.y, 5 - enemy.transform.localScale.y));
             enemy.GetComponent<Enemy>().Initialize(stageManager.Current);
             
             stageManager.UpdateStageState(1, false);
-
-            enemy.transform.position = new Vector3(12, Random.Range(-5 + enemy.transform.localScale.y, 5 - enemy.transform.localScale.y));
         }
+    }
+
+    private Enemy getRandomEnemy()
+    {
+        if (remainingE1Count + remainingE2Count < 1)
+            throw new IndexOutOfRangeException();
+        
+        var type = Random.Range(remainingE1Count > 0 ? 1 : 3, remainingE2Count > 0 ? 3 : 1);
+        var enemy = EnemyPoolingManager.Current.Get(type);
+
+        switch (type)
+        {
+            case 1:
+                remainingE1Count--;
+                break;
+            
+            case 2:
+                remainingE2Count--;
+                break;
+        }
+
+        return enemy;
     }
 }

@@ -69,9 +69,9 @@ public class Player : Unit
     {
         while (Input.GetKey(shoot_key_code) && !Input.GetKey(guard_key_code))
         {
-            var bullet = BulletPoolingManager.Current.Pool.Get();
+            var bullet = BulletPoolingManager.Current.Get();
             bullet.transform.position = transform.position;
-            bullet.GetComponent<Bullet>().Initialize(this, Vector3.right * 21, Damage, 0.04f);
+            bullet.Initialize(this, Vector3.right * 21, Damage, 0.04f);
 
             yield return new WaitForSeconds(1 / AttackSpeed);
         }

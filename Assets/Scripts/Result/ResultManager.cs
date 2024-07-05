@@ -66,9 +66,7 @@ public class ResultManager : MonoBehaviour
     {
         foreach (var score in playerScores.OrderByDescending(p => p.Score).ThenBy(p => p.Time))
         {
-            var newScore = Instantiate(scoreCard);
-                    
-            newScore.transform.SetParent(scrollContent.transform);
+            var newScore = Instantiate(scoreCard, scrollContent.transform, true);
             newScore.GetComponent<ScoreCard>().SetData(score);
         }
     }

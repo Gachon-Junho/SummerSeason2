@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public abstract class Enemy : Unit, IPoolableObject, IHasPoint
+public abstract class Enemy : Unit, IPoolableGameObject, IHasPoint
 {
     public abstract int Point { get; }
     
