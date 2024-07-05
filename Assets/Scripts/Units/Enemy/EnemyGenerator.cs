@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -9,8 +10,8 @@ public class EnemyGenerator : MonoBehaviour
     [SerializeField] 
     private StageManager stageManager;
 
-    [SerializeField] 
-    private GameObject EnemyType3Prefab;
+    [SerializeField]
+    private GameObject enemyType3Prefab;
 
     private IEnumerator runningCoroutine;
     
@@ -41,7 +42,7 @@ public class EnemyGenerator : MonoBehaviour
 
             if (stageManager.ShowBoss)
             {
-                var boss = Instantiate(EnemyType3Prefab);
+                var boss = Instantiate(enemyType3Prefab);
                 boss.transform.position = new Vector3(12, Random.Range(-5 + boss.transform.localScale.y, 5 - boss.transform.localScale.y));
                 boss.GetComponent<Enemy>().Initialize(stageManager.Current);
 

@@ -322,8 +322,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74a7a0c29ebf9422cb58363ecd5dbba2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 90000
-  maxHP: 90000
+  hp: 40000
+  maxHP: 40000
   damage: 2
   attackSpeed: 5
   mainCamera: {fileID: 519420031}
@@ -890,7 +890,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stageManager: {fileID: 1590117583}
-  EnemyType3Prefab: {fileID: 8520145536252089279, guid: 5e8735b3cf7bd4f44889abb3deed69cf, type: 3}
+  enemyType3Prefab: {fileID: 8520145536252089279, guid: 5e8735b3cf7bd4f44889abb3deed69cf, type: 3}
 --- !u!4 &1026408440
 Transform:
   m_ObjectHideFlags: 0
