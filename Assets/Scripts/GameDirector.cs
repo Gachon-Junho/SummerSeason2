@@ -1,12 +1,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameDirector : MonoSingleton<GameDirector>
 {
     [SerializeField]
     private EnemyGenerator enemyGenerator;
+    
+    [SerializeField]
+    private TMP_Text time;
+    
+    [SerializeField]
+    private TMP_Text stage;
+    
+    [SerializeField]
+    private TMP_Text score;
     
     public bool IsPlaying { get; private set; }
     public float ElapsedTime { get; private set; }
@@ -38,5 +48,9 @@ public class GameDirector : MonoSingleton<GameDirector>
             return;
 
         ElapsedTime += Time.deltaTime;
+
+        time.text = $"Time: {ElapsedTime:F2}";
+        stage.text = $"Stage: {GameStateCache.Round + 1}";
+        score.text = $"Score: {GameStateCache.Score}";
     }
 }

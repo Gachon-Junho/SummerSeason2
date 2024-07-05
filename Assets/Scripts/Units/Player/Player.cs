@@ -46,20 +46,6 @@ public class Player : Unit
         GameStateCache.Round = GameObject.Find("StageManager").GetComponent<StageManager>().CurrentStageIndex + 1;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        switch (other.gameObject.tag)
-        {
-            case "Enemy":
-            case "Bullet":
-                if (ReferenceEquals(other.gameObject.GetComponent<Bullet>()?.Start, this))
-                    return;
-                
-                //GameObject.Find("GameDirector").GetComponent<GameDirector>().FinishGame();
-                break;
-        }
-    }
-
     protected override void OnDead()
     {
         GameObject.Find("GameDirector").GetComponent<GameDirector>().FinishGame();

@@ -17,7 +17,7 @@ public class EnemyType3 : Enemy
 
     public override void Initialize(Stage stage)
     {
-        Initialize(stage.BossHP, stage.BossBulletSpeed, stage.BossAttackSpeed, stage.BossMoveSpeed * 0.5f);
+        Initialize(stage.BossHP, stage.BossBulletSpeed, stage.BossAttackSpeed, stage.BossMoveSpeed * 0.2f);
         StartCoroutine(fire());
     }
 
@@ -48,10 +48,6 @@ public class EnemyType3 : Enemy
     
     protected override void OnDead()
     {
-        var stageManager = GameObject.Find("StageManager");
-        stageManager.GetComponent<StageManager>().UpdateStageState(0, true);
-        
-        GameObject.Find("EnemyGenerator").GetComponent<EnemyGenerator>().StartGenerate();
         Release();
     }
 
@@ -61,5 +57,13 @@ public class EnemyType3 : Enemy
         base.Update();
     }
 
-    public override void Release() => Destroy(gameObject);
+    public override void Release()
+    {
+        var stageManager = GameObject.Find("StageManager");
+        stageManager.GetComponent<StageManager>().UpdateStageState(0, true);
+        
+        GameObject.Find("EnemyGenerator").GetComponent<EnemyGenerator>().StartGenerate();
+        
+        Destroy(gameObject);
+    }
 }
